@@ -1,0 +1,86 @@
+@greyLight: #f3f3f4;
+@greyBorder: #e7eaec;
+@grey: #888888;
+@white: #fff;
+@greenLight: #ccede6;
+@orange: #f8ac59;
+
+.uppercase{
+    text-transform: uppercase;
+}
+
+.lato{
+    font-family: 'Lato', sans-serif;
+}
+
+.fw9{
+    font-weight: 900;
+}
+
+.textCenter{
+    text-align: center;
+}
+
+body{
+    background-color: @greyLight;
+    .lato;
+}
+
+#containerBox{
+    width: 500px;
+    
+    h1{
+        .uppercase;
+        .fw9;
+        letter-spacing: -2px;
+        .textCenter;
+        color: @grey;
+        margin-bottom: 20px;
+    }
+    
+    form{
+        text-align: right;
+        
+        #urgent{
+            margin-top: 8px;
+        }
+        
+        .btn{
+            width: 100%;
+        }
+    }
+    
+    #listToDo{
+        margin: 10px 0 0 0;
+        padding: 0;
+        
+        li{
+            padding: 10px;
+            margin: 0 0 5px 0;
+            list-style-type: none;
+            border-bottom: 1px solid @greyBorder;
+            background-color: @white;
+            
+            &.urgent{
+                background-color: @orange;
+                
+                &:hover{
+                    background-color: @orange;
+                }
+            }
+            
+            &:hover{
+                background-color: @greenLight;
+            }
+            
+            .glyphicon-remove{
+                float: right;
+                margin-top: 2px;
+                
+                &:hover{
+                    cursor: pointer;
+                }
+            }
+        }
+    }
+}
