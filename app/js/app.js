@@ -12,7 +12,6 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 var actions = []; // Initialisation des actions
-var id = 0;
 
 //////////////////////////////////////////////////////////////////////////// Objets ////////////////////////////////////////////////////////////////////////////
 ///// Class Action CRUD /////
@@ -25,7 +24,6 @@ var Action = (function () {
         _classCallCheck(this, Action);
 
         this.action = action;
-        this.id = id++;
         this.urgent = "";
     }
 
@@ -40,7 +38,6 @@ var Action = (function () {
             actions.push({
 
                 name: this.action,
-                id: this.id,
                 urgent: this.urgent
 
             });
@@ -54,7 +51,8 @@ var Action = (function () {
         key: "read",
         value: function read() {
 
-            var action = undefined;
+            var action = undefined,
+                index = undefined;
             var liste = document.getElementById("listToDo");
             liste.innerHTML = "";
 
@@ -63,10 +61,13 @@ var Action = (function () {
             var _iteratorError = undefined;
 
             try {
-                for (var _iterator = actions[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
-                    action = _step.value;
+                for (var _iterator = actions.entries()[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
+                    var _step$value = _slicedToArray(_step.value, 2);
 
-                    liste.innerHTML += "<li class=\"" + action.urgent + "\">" + action.name + " <i indexaction=\"" + action.id + "\" class=\"glyphicon glyphicon-remove\"></i></li>";
+                    index = _step$value[0];
+                    action = _step$value[1];
+
+                    liste.innerHTML += "<li class=\"" + action.urgent + "\">" + action.name + " <i indexaction=\"" + index + "\" class=\"glyphicon glyphicon-remove\"></i></li>";
                 }
             } catch (err) {
                 _didIteratorError = true;
@@ -92,43 +93,7 @@ var Action = (function () {
         // Supprimer une action
     }, {
         key: "delete",
-        value: function _delete(id) {
-
-            var indexToRemove = undefined;
-            var action = undefined,
-                index = undefined;
-
-            // Récupération de l'index de l'action dans le tableau des actions
-            var _iteratorNormalCompletion2 = true;
-            var _didIteratorError2 = false;
-            var _iteratorError2 = undefined;
-
-            try {
-                for (var _iterator2 = actions.entries()[Symbol.iterator](), _step2; !(_iteratorNormalCompletion2 = (_step2 = _iterator2.next()).done); _iteratorNormalCompletion2 = true) {
-                    var _step2$value = _slicedToArray(_step2.value, 2);
-
-                    index = _step2$value[0];
-                    action = _step2$value[1];
-
-                    if (action.id == id) {
-
-                        indexToRemove = index;
-                    }
-                }
-            } catch (err) {
-                _didIteratorError2 = true;
-                _iteratorError2 = err;
-            } finally {
-                try {
-                    if (!_iteratorNormalCompletion2 && _iterator2["return"]) {
-                        _iterator2["return"]();
-                    }
-                } finally {
-                    if (_didIteratorError2) {
-                        throw _iteratorError2;
-                    }
-                }
-            }
+        value: function _delete(indexToRemove) {
 
             actions.splice(indexToRemove, 1);
             this.read();
@@ -164,28 +129,28 @@ var init = function init() {
     var initArr = ["Acheter du pain", "Aller chez le vétérinaire", "Prendre RDV chez le médecin"];
     var actionInit = undefined;
 
-    var _iteratorNormalCompletion3 = true;
-    var _didIteratorError3 = false;
-    var _iteratorError3 = undefined;
+    var _iteratorNormalCompletion2 = true;
+    var _didIteratorError2 = false;
+    var _iteratorError2 = undefined;
 
     try {
-        for (var _iterator3 = initArr[Symbol.iterator](), _step3; !(_iteratorNormalCompletion3 = (_step3 = _iterator3.next()).done); _iteratorNormalCompletion3 = true) {
-            actionInit = _step3.value;
+        for (var _iterator2 = initArr[Symbol.iterator](), _step2; !(_iteratorNormalCompletion2 = (_step2 = _iterator2.next()).done); _iteratorNormalCompletion2 = true) {
+            actionInit = _step2.value;
 
             action = new Action(actionInit);
             action.create();
         }
     } catch (err) {
-        _didIteratorError3 = true;
-        _iteratorError3 = err;
+        _didIteratorError2 = true;
+        _iteratorError2 = err;
     } finally {
         try {
-            if (!_iteratorNormalCompletion3 && _iterator3["return"]) {
-                _iterator3["return"]();
+            if (!_iteratorNormalCompletion2 && _iterator2["return"]) {
+                _iterator2["return"]();
             }
         } finally {
-            if (_didIteratorError3) {
-                throw _iteratorError3;
+            if (_didIteratorError2) {
+                throw _iteratorError2;
             }
         }
     }
@@ -240,10 +205,10 @@ function removeAction() {
 
         remove[i].addEventListener("click", function () {
 
-            var id = this.getAttribute("indexaction");
+            var index = this.getAttribute("indexaction");
 
             // Suppression de l'action
-            action["delete"](id);
+            action["delete"](index);
         });
     }
 }

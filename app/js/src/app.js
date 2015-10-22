@@ -1,6 +1,5 @@
 //////////////////////////////////////////////////////////////////////////// Initialisation ////////////////////////////////////////////////////////////////////////////
 var actions = []; // Initialisation des actions
-var id = 0;
 
 //////////////////////////////////////////////////////////////////////////// Objets ////////////////////////////////////////////////////////////////////////////
 ///// Class Action CRUD /////
@@ -10,7 +9,6 @@ class Action{
     constructor(action){
         
         this.action = action;
-        this.id = id++;
         this.urgent = "";
         
     }
@@ -21,7 +19,6 @@ class Action{
         actions.push({
             
             name: this.action,
-            id: this.id,
             urgent: this.urgent
             
         });
@@ -34,13 +31,13 @@ class Action{
     // Afficher les actions
     read(){
         
-        let action;
+        let action, index;
         let liste = document.getElementById("listToDo");
         liste.innerHTML = "";
         
-        for(action of actions){
+        for([index, action] of actions.entries()){
         
-            liste.innerHTML += `<li class="${action.urgent}">${action.name} <i indexaction="${action.id}" class="glyphicon glyphicon-remove"></i></li>`;
+            liste.innerHTML += `<li class="${action.urgent}">${action.name} <i indexaction="${index}" class="glyphicon glyphicon-remove"></i></li>`;
         
         }
         
@@ -50,21 +47,7 @@ class Action{
     update(){}
     
     // Supprimer une action
-    delete(id){
-        
-        let indexToRemove;
-        let action, index;
-        
-        // Récupération de l'index de l'action dans le tableau des actions
-        for([index, action] of actions.entries()){
-            
-            if(action.id == id){
-                
-                indexToRemove = index;
-                
-            }
-            
-        }
+    delete(indexToRemove){
         
         actions.splice(indexToRemove, 1);
         this.read();
@@ -159,10 +142,10 @@ function removeAction(){
 
         remove[i].addEventListener("click", function(){
 
-            let id = this.getAttribute("indexaction");
+            let index = this.getAttribute("indexaction");
 
             // Suppression de l'action
-            action.delete(id);
+            action.delete(index);
 
         });
 
